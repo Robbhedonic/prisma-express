@@ -5,10 +5,6 @@ const prisma = new PrismaClient();
 const app = express();
 app.use(express.json());
 
-app.listen(3000, () => {
-    console.log("Server is running on port 3000")
-});
-
 app.get('/userLanguages', async (req, res) => {
     try{
         const users = await prisma.userLanguage.findMany();
@@ -64,4 +60,23 @@ app.put('/userLanguages/:email', async (req, res) => {
     } catch (error) {
         res.status(400).json({ error: "Error updating user"});
     }
+});
+
+app.delete('/userlanguages', async (req, res) => {
+  try {
+    const deleted = await prisma.userLanguage.deleteMany({
+      where: {
+        age: {
+          lt: 18,
+        },
+      },
+    });
+    res.json({ message: `${deleted.count} users under 18 have been deleted` });
+  } catch (error) {
+    res.status(500).json({ error: "Error deleting users" });
+  }
+});
+
+app.listen(3000, () => {
+    console.log("Server is running on port 3000")
 });
