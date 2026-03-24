@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 const app = express();
 app.use(express.json());
 
-app.get('/userLanguages', async (req, res) => {
+app.get('/userlanguages', async (req, res) => {
     try{
         const users = await prisma.userLanguage.findMany();
         res.json(users);
@@ -31,7 +31,7 @@ app.get('/userlanguages/:language', async (req, res) => {
     }
 })
 
-app.post('/userLanguages', async (req, res) => {
+app.post('/userlanguages', async (req, res) => {
     try {
         const { name, email, languages, age} = req.body;
         const user = await prisma.userLanguage.create({
@@ -48,7 +48,7 @@ app.post('/userLanguages', async (req, res) => {
     }
 });
 
-app.put('/userLanguages/:email', async (req, res) => {
+app.put('/userlanguages/:email', async (req, res) => {
     try {
         const { email } = req.params;
         const { languages } = req.body;
