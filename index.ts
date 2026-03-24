@@ -34,3 +34,34 @@ app.get('/userlanguages/:language', async (req, res) => {
         res.status(500).json({ error: "Error fetching users by language" });
     }
 })
+
+app.post('/userLanguages', async (req, res) => {
+    try {
+        const { name, email, languages, age} = req.body;
+        const user = await prisma.userLanguage.create({
+            data: { 
+                name,
+                email,
+                languages,
+                age, 
+            },
+        });
+        res.status(201).json(user);
+    } catch (error) {
+        res.status(400).json({ error: "Error creating user"});
+    }
+});
+
+app.put('/userLanguages/:email', async (req, res) => {
+    try {
+        const { email } = req.params;
+        const { languages } = req.body;
+        const user = await prisma.userLanguage.update({
+            where: { email },
+            data: { languages },
+        });
+        res.json(user);
+    } catch (error) {
+        res.status(400).json({ error: "Error updating user"});
+    }
+});
