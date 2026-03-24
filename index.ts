@@ -18,3 +18,19 @@ app.get('/userLanguages', async (req, res) => {
     }
 
 });
+
+app.get('/userlanguages/:language', async (req, res) => {
+    try {
+        const { language } = req.params;
+        const users = await prisma.userLanguage.findMany({
+            where: {
+                languages: {
+                    has: language,
+                },
+            },
+        });
+        res.json(users);
+    } catch (error) {
+        res.status(500).json({ error: "Error fetching users by language" });
+    }
+})
